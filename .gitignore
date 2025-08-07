@@ -30,3 +30,9 @@ go.work.sum
 # Editor/IDE
 # .idea/
 # .vscode/
+
+# OS files
+.DS_Store
+
+# Test music files
+/assets/*
