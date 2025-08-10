@@ -26,3 +26,8 @@ terminal-music-player/
 │
 ├── assets/                    # 测试音乐文件（添加 .gitignore）
 └── README.md
+
+
+
+
+fix github commit problem
