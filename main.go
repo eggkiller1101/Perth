@@ -11,13 +11,27 @@ import (
 	"unicode/utf8"
 
 	"perth/player"
+	"perth/playlist"
 )
 
 func main() {
 	p := player.New()
 	defer p.Close()
 
+	// Initialize playlist scanner
+	playlistScanner := playlist.NewScanner([]string{"assets"})
+
+	// Perform initial scan
 	fmt.Println("🎵 Perth Music Player")
+	fmt.Println("📁 Scanning for audio files...")
+	result, err := playlistScanner.Scan()
+	if err != nil {
+		fmt.Printf("⚠️  Warning: Failed to scan audio files: %v\n", err)
+	} else {
+		fmt.Printf("✅ Found %d audio tracks\n", result.TotalFiles)
+	}
+	fmt.Println()
+
 	fmt.Println("Commands:")
 	fmt.Println("  load <file>     - Load an audio file")
 	fmt.Println("  play            - Start/Resume playback")
@@ -27,6 +41,11 @@ func main() {
 	fmt.Println("  volume <0-100>  - Set volume (0-100)")
 	fmt.Println("  status          - Show current status")
 	fmt.Println("  ls              - List available audio files")
+	fmt.Println("  list            - Show playlist tracks")
+	fmt.Println("  next            - Play next track in playlist")
+	fmt.Println("  prev            - Play previous track in playlist")
+	fmt.Println("  goto <index>    - Jump to track by index")
+	fmt.Println("  rescan          - Rescan audio files")
 	fmt.Println("  quit            - Exit the player")
 	fmt.Println()
 
@@ -92,6 +111,25 @@ func main() {
 
 		case "ls":
 			listAudioFiles()
+
+		case "list":
+			listPlaylistTracks(playlistScanner)
+
+		case "next":
+			playNextTrack(p, playlistScanner)
+
+		case "prev":
+			playPreviousTrack(p, playlistScanner)
+
+		case "goto":
+			if len(args) < 1 {
+				fmt.Println("Usage: goto <index>")
+				continue
+			}
+			gotoTrack(p, playlistScanner, args[0])
+
+		case "rescan":
+			rescanAudioFiles(playlistScanner)
 
 		case "quit", "exit":
 			fmt.Println("👋 Goodbye!")
@@ -261,4 +299,146 @@ func formatDuration(d time.Duration) string {
 	minutes := int(d.Minutes())
 	seconds := int(d.Seconds()) % 60
 	return fmt.Sprintf("%02d:%02d", minutes, seconds)
+}
+
+// Playlist management functions
+
+var currentTrackIndex = -1
+
+func listPlaylistTracks(scanner *playlist.Scanner) {
+	tracks := scanner.GetTracks()
+	if len(tracks) == 0 {
+		fmt.Println("📭 No tracks found in playlist")
+		return
+	}
+
+	fmt.Printf("🎵 Playlist (%d tracks):\n", len(tracks))
+	for i, track := range tracks {
+		marker := "  "
+		if i == currentTrackIndex {
+			marker = "▶️ "
+		}
+		fmt.Printf("%s%d. %s\n", marker, i+1, track.String())
+
+		// Show metadata for current track
+		if i == currentTrackIndex && track.HasMetadata() {
+			artist := track.Artist()
+			album := track.Album()
+			if artist != "" {
+				fmt.Printf("     Artist: %s\n", artist)
+			}
+			if album != "" {
+				fmt.Printf("     Album: %s\n", album)
+			}
+		}
+	}
+
+	if currentTrackIndex >= 0 {
+		fmt.Printf("\n💡 Current track: %d\n", currentTrackIndex+1)
+	}
+}
+
+func playNextTrack(p *player.Player, scanner *playlist.Scanner) {
+	tracks := scanner.GetTracks()
+	if len(tracks) == 0 {
+		fmt.Println("📭 No tracks in playlist")
+		return
+	}
+
+	if currentTrackIndex < 0 {
+		currentTrackIndex = 0
+	} else {
+		currentTrackIndex = (currentTrackIndex + 1) % len(tracks)
+	}
+
+	track := tracks[currentTrackIndex]
+	fmt.Printf("⏭️  Next track: %s\n", track.String())
+
+	loadFile(p, track.Path)
+
+	if err := p.Play(); err != nil {
+		fmt.Printf("❌ Failed to play track: %v\n", err)
+	} else {
+		fmt.Println("▶️  Playing next track")
+	}
+}
+
+func playPreviousTrack(p *player.Player, scanner *playlist.Scanner) {
+	tracks := scanner.GetTracks()
+	if len(tracks) == 0 {
+		fmt.Println("📭 No tracks in playlist")
+		return
+	}
+
+	if currentTrackIndex < 0 {
+		currentTrackIndex = 0
+	} else {
+		currentTrackIndex = (currentTrackIndex - 1 + len(tracks)) % len(tracks)
+	}
+
+	track := tracks[currentTrackIndex]
+	fmt.Printf("⏮️  Previous track: %s\n", track.String())
+
+	loadFile(p, track.Path)
+
+	if err := p.Play(); err != nil {
+		fmt.Printf("❌ Failed to play track: %v\n", err)
+	} else {
+		fmt.Println("▶️  Playing previous track")
+	}
+}
+
+func gotoTrack(p *player.Player, scanner *playlist.Scanner, indexStr string) {
+	index, err := strconv.Atoi(indexStr)
+	if err != nil {
+		fmt.Printf("❌ Invalid index: %s\n", indexStr)
+		return
+	}
+
+	tracks := scanner.GetTracks()
+	if index < 1 || index > len(tracks) {
+		fmt.Printf("❌ Index out of range (1-%d)\n", len(tracks))
+		return
+	}
+
+	currentTrackIndex = index - 1
+	track := tracks[currentTrackIndex]
+	fmt.Printf("🎯 Jumping to track %d: %s\n", index, track.String())
+
+	loadFile(p, track.Path)
+
+	if err := p.Play(); err != nil {
+		fmt.Printf("❌ Failed to play track: %v\n", err)
+	} else {
+		fmt.Println("▶️  Playing selected track")
+	}
+}
+
+func rescanAudioFiles(scanner *playlist.Scanner) {
+	fmt.Println("🔄 Rescanning audio files...")
+	result, err := scanner.Scan()
+	if err != nil {
+		fmt.Printf("❌ Rescan failed: %v\n", err)
+		return
+	}
+
+	fmt.Printf("✅ Rescan completed!\n")
+	fmt.Printf("📊 Results:\n")
+	fmt.Printf("  Total tracks: %d\n", result.TotalFiles)
+	fmt.Printf("  New tracks: %d\n", result.NewTracks)
+	fmt.Printf("  Updated tracks: %d\n", result.UpdatedTracks)
+	fmt.Printf("  Removed tracks: %d\n", result.RemovedTracks)
+
+	if len(result.Errors) > 0 {
+		fmt.Printf("⚠️  Errors encountered:\n")
+		for _, err := range result.Errors {
+			fmt.Printf("    - %s\n", err)
+		}
+	}
+
+	// Reset current track index if it's out of bounds
+	tracks := scanner.GetTracks()
+	if currentTrackIndex >= len(tracks) {
+		currentTrackIndex = -1
+	}
 }

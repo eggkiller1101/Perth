@@ -1,0 +1,107 @@
+{
+  "tracks": [
+    {
+      "id": "87f3ad89",
+      "path": "assets/Diels-Alder - 离解.mp3",
+      "filename": "Diels-Alder - 离解.mp3",
+      "duration": 307278367346,
+      "format": ".mp3",
+      "size": 4946784,
+      "modified": "2025-08-07T15:38:45.07694988+08:00"
+    },
+    {
+      "id": "cced41d7",
+      "path": "assets/Euphoria - silent roar.mp3",
+      "filename": "Euphoria - silent roar.mp3",
+      "duration": 357903673469,
+      "format": ".mp3",
+      "size": 5409347,
+      "modified": "2025-08-07T15:41:30.181613157+08:00"
+    },
+    {
+      "id": "2201d523",
+      "path": "assets/I Mean Us - Søulмaтe.mp3",
+      "filename": "I Mean Us - Søulмaтe.mp3",
+      "duration": 295079183673,
+      "format": ".mp3",
+      "size": 4335458,
+      "modified": "2025-08-07T15:47:56.498446402+08:00"
+    },
+    {
+      "id": "706ea363",
+      "path": "assets/Miraidempa - 知之者不如好之者、好之者不如楽之者.mp3",
+      "filename": "Miraidempa - 知之者不如好之者、好之者不如楽之者.mp3",
+      "duration": 181603265306,
+      "format": ".mp3",
+      "size": 3120709,
+      "modified": "2025-08-07T15:44:32.188625947+08:00"
+    },
+    {
+      "id": "475ec362",
+      "path": "assets/Myra - Miracles Happen (When You Believe).mp3",
+      "filename": "Myra - Miracles Happen (When You Believe).mp3",
+      "duration": 257985306122,
+      "format": ".mp3",
+      "size": 4322451,
+      "modified": "2025-08-07T15:49:53.907709819+08:00"
+    },
+    {
+      "id": "18b8df9b",
+      "path": "assets/THE BOOTLEGS - 失去爱情的摩托车手.mp3",
+      "filename": "THE BOOTLEGS - 失去爱情的摩托车手.mp3",
+      "duration": 215484081632,
+      "format": ".mp3",
+      "size": 2422612,
+      "modified": "2025-08-07T15:43:22.963323942+08:00"
+    },
+    {
+      "id": "425daea3",
+      "path": "assets/aespa - Whiplash.mp3",
+      "filename": "aespa - Whiplash.mp3",
+      "duration": 190641632653,
+      "format": ".mp3",
+      "size": 3290337,
+      "modified": "2025-08-07T15:52:53.427464277+08:00"
+    },
+    {
+      "id": "f840c08c",
+      "path": "assets/chilloud \u0026 fizz - where's the future_ nowhere.mp3",
+      "filename": "chilloud \u0026 fizz - where's the future_ nowhere.mp3",
+      "duration": 143072653061,
+      "format": ".mp3",
+      "size": 2380697,
+      "modified": "2025-08-07T15:40:13.574201384+08:00"
+    },
+    {
+      "id": "883b5f99",
+      "path": "assets/sybil. - good morning midnight.mp3",
+      "filename": "sybil. - good morning midnight.mp3",
+      "duration": 172460408163,
+      "format": ".mp3",
+      "size": 2779724,
+      "modified": "2025-08-07T12:43:15.741433957+08:00"
+    },
+    {
+      "id": "5cd8008f",
+      "path": "assets/菲菲公主 - 第57次取消发送.mp3",
+      "filename": "菲菲公主 - 第57次取消发送.mp3",
+      "duration": 180662857142,
+      "format": ".mp3",
+      "size": 2622711,
+      "modified": "2025-08-07T15:53:32.039710557+08:00"
+    }
+  ],
+  "file_hashes": {
+    "assets/Diels-Alder - 离解.mp3": "5433dec6e23e44c44d5439b24555809e",
+    "assets/Euphoria - silent roar.mp3": "ba9226e56e8bc626e92c1986117fef6c",
+    "assets/I Mean Us - Søulмaтe.mp3": "421b7da4389873a5b7c9a2901d48dea8",
+    "assets/Miraidempa - 知之者不如好之者、好之者不如楽之者.mp3": "799122feddd39531a933be6c50b9be97",
+    "assets/Myra - Miracles Happen (When You Believe).mp3": "10b4d471d1b85cd56422bf5b4a5b4ec7",
+    "assets/THE BOOTLEGS - 失去爱情的摩托车手.mp3": "bbfab8438a40f7c9e02112046c6e9130",
+    "assets/aespa - Whiplash.mp3": "5c5b006079d33a5b4a04bc1aa40e6193",
+    "assets/chilloud \u0026 fizz - where's the future_ nowhere.mp3": "f7ccc76dfe7b994b2a54d4568df39968",
+    "assets/sybil. - good morning midnight.mp3": "59931276e79183658733e3eb32b33871",
+    "assets/菲菲公主 - 第57次取消发送.mp3": "92c15f1ff178e71c687788b1c5dc0442"
+  },
+  "last_scan": "2025-08-11T00:01:51.786715+08:00"
+}

@@ -2,7 +2,10 @@ module perth
 
 go 1.24.5
 
-require github.com/faiface/beep v1.1.0
+require (
+	github.com/dhowden/tag v0.0.0-20240417053706-3d75831295e8
+	github.com/faiface/beep v1.1.0
+)
 
 require (
 	github.com/hajimehoshi/go-mp3 v0.3.4 // indirect
